@@ -1,28 +1,39 @@
 <html>
 
 <head>
+    <meta charset="utf-8" />
     <title>JS Experiment</title>
     <script>
         function draw() {
             var canvas = document.getElementById('canvas');
             if (canvas.getContext) {
-                var ctx = canvas.getContext('2d');
+                var ctx = canvas.getContext('2d', { alpha: false });
                 ctx.fillStyle = 'rgb(200, 0, 0)';
                 ctx.fillRect(10, 10, 50, 50);
                 ctx.fillStyle = 'rgba(0, 0, 200, 0.5)';
                 ctx.fillRect(30, 30, 50, 50);
+                const w = canvas.width;
+                const h = canvas.height;
+                image = ctx.getImageData(0, 0, w, h);
+                image.data[0] = 255;
+                image.data[1] = 255;
+                image.data[2] = 255;
+                image.data[h / 2 * w * 4 + w / 2 * 4 + 0] = 255;
+                image.data[h / 2 * w * 4 + w / 2 * 4 + 1] = 255;
+                image.data[h / 2 * w * 4 + w / 2 * 4 + 2] = 255;
+                ctx.putImageData(image, 0, 0);
             }
         }
     </script>
     <style>
         canvas {
-            border: 1px solid black;
+            border: 1px solid blueviolet;
         }
     </style>
 </head>
 
 <body onload="draw();">
-    <canvas id="canvas" width="300" height="150">Canvas not supported!</canvas>
+    <canvas id="canvas" width="320" height="200">Canvas not supported!</canvas>
 </body>
 
 </html>
